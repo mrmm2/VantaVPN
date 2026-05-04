@@ -1,0 +1,83 @@
+# VantaVPN — система управления подписками
+
+import sqlite3
+from datetime import datetime, timedelta
+
+# Цены подписок
+PRICES = {
+    30: 40,   # 30 дней = 40 ₽
+    60: 70,   # 60 дней = 70 ₽
+    90: 100   # 90 дней = 100 ₽
+}
+
+DB_NAME = "subscriptions.db"
+
+# Инициализация базы данных
+def init_db():
+    conn = sqlite3.connect(DB_NAME)
+    cur = conn.cursor()
+    cur.execute('''
+        CREATE TABLE IF NOT EXISTS users (
+            user_id INTEGER PRIMARY KEY,
+            subscription_end TEXT,
+            created_at TEXT
+        )
+    ''')
+    conn.commit()
+    conn.close()
+
+# Получить дату окончания подписки
+def get_subscription(user_id):
+    conn = sqlite3.connect(DB_NAME)
+    cur = conn.cursor()
+    cur.execute('SELECT subscription_end FROM users WHERE user_id = ?', (user_id,))
+    result = cur.fetchone()
+    conn.close()
+    return result[0] if result else None
+
+# Установить подписку
+def set_subscription(user_id, end_date):
+    conn = sqlite3.connect(DB_NAME)
+    cur = conn.cursor()
+    cur.execute('''
+        INSERT INTO users (user_id, subscription_end, created_at) 
+        VALUES (?, ?, ?)
+        ON CONFLICT(user_id) DO UPDATE SET subscription_end = excluded.subscription_end
+    ''', (user_id, end_date.isoformat(), datetime.now().isoformat()))
+    conn.commit()
+    conn.close()
+
+# Добавить дни к подписке
+def add_days(user_id, days):
+    current_end = get_subscription(user_id)
+    if current_end and datetime.fromisoformat(current_end) > datetime.now():
+        new_end = datetime.fromisoformat(current_end) + timedelta(days=days)
+    else:
+        new_end = datetime.now() + timedelta(days=days)
+    set_subscription(user_id, new_end)
+    return new_end
+
+# Проверить активна ли подписка
+def is_active(user_id):
+    end_date = get_subscription(user_id)
+    if not end_date:
+        return False
+    return datetime.fromisoformat(end_date) > datetime.now()
+
+# Сколько дней осталось
+def days_left(user_id):
+    end_date = get_subscription(user_id)
+    if not end_date:
+        return 0
+    delta = datetime.fromisoformat(end_date) - datetime.now()
+    return delta.days if delta.days > 0 else 0
+
+# Пример использования
+if __name__ == "__main__":
+    init_db()
+    
+    # Добавляем подписку пользователю 8784991559 на 30 дней
+    new_end = add_days(8784991559, 30)
+    print(f"Подписка активна до: {new_end}")
+    print(f"Активна: {is_active(8784991559)}")
+    print(f"Осталось дней: {days_left(8784991559)}")
