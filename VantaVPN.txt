@@ -4,125 +4,13 @@
 #profile-web-page-url: https://t.me/vantavpn
 #announce: ✅ Безлимитный трафик | ✅ 10 серверов | ✅ Обход DPI/глушилок | ✅ Поддержка 24/7
 #subscription-userinfo: upload=0; download=0; total=0; expire=3803752800
-
-proxies:
-  # ========== 1. REАLITY (лучший обход глушилок) ==========
-  - name: 🛡️ VantaVPN | Reality (ads.x5.ru)
-    type: vless
-    server: scarlet.riotvpn.eu
-    port: 5443
-    uuid: 49a8e3f5-3bad-4964-ba1d-31f6c6bcd699
-    flow: xtls-rprx-vision
-    tls: true
-    servername: ads.x5.ru
-    reality-opts:
-      public-key: sgFFdQvfeujBKh6g7N7klU_u0mKYlr800MFbko5FzUg
-      short-id: e67fb918ed6b9ffb
-    network: tcp
-    udp: true
-
-  - name: 🛡️ VantaVPN | Reality (www.google.com)
-    type: vless
-    server: scarlet.riotvpn.eu
-    port: 5443
-    uuid: 49a8e3f5-3bad-4964-ba1d-31f6c6bcd699
-    flow: xtls-rprx-vision
-    tls: true
-    servername: www.google.com
-    reality-opts:
-      public-key: sgFFdQvfeujBKh6g7N7klU_u0mKYlr800MFbko5FzUg
-      short-id: e67fb918ed6b9ffb
-    network: tcp
-    udp: true
-
-  - name: 🛡️ VantaVPN | Reality (1.1.1.1)
-    type: vless
-    server: scarlet.riotvpn.eu
-    port: 5443
-    uuid: 49a8e3f5-3bad-4964-ba1d-31f6c6bcd699
-    flow: xtls-rprx-vision
-    tls: true
-    servername: 1.1.1.1
-    reality-opts:
-      public-key: sgFFdQvfeujBKh6g7N7klU_u0mKYlr800MFbko5FzUg
-      short-id: e67fb918ed6b9ffb
-    network: tcp
-    udp: true
-
-  # ========== 2. XHTTP + PACKET (обход DPI) ==========
-  - name: 🚀 VantaVPN | xhttp+packet (dl.google.com)
-    type: vless
-    server: scarlet.riotvpn.eu
-    port: 4449
-    uuid: 49a8e3f5-3bad-4964-ba1d-31f6c6bcd699
-    tls: true
-    servername: dl.google.com
-    network: xhttp
-    xhttp-opts:
-      path: /
-      mode: packet
-
-  - name: 🚀 VantaVPN | xhttp+packet (obhod.riotvpn.eu)
-    type: vless
-    server: scarlet.riotvpn.eu
-    port: 4449
-    uuid: 49a8e3f5-3bad-4964-ba1d-31f6c6bcd699
-    tls: true
-    servername: obhod.riotvpn.eu
-    network: xhttp
-    xhttp-opts:
-      path: /
-      mode: packet
-
-  - name: 🚀 VantaVPN | xhttp+packet (microsoft.com)
-    type: vless
-    server: scarlet.riotvpn.eu
-    port: 4449
-    uuid: 49a8e3f5-3bad-4964-ba1d-31f6c6bcd699
-    tls: true
-    servername: www.microsoft.com
-    network: xhttp
-    xhttp-opts:
-      path: /
-      mode: packet
-
-  # ========== 3. TCP+TLS (стабильные) ==========
-  - name: 🔥 VantaVPN | TCP+TLS (obhod)
-    type: vless
-    server: scarlet.riotvpn.eu
-    port: 4449
-    uuid: 49a8e3f5-3bad-4964-ba1d-31f6c6bcd699
-    tls: true
-    servername: obhod.riotvpn.eu
-    network: tcp
-    udp: true
-
-  - name: 🔥 VantaVPN | TCP+TLS (ads.x5.ru)
-    type: vless
-    server: scarlet.riotvpn.eu
-    port: 4449
-    uuid: 49a8e3f5-3bad-4964-ba1d-31f6c6bcd699
-    tls: true
-    servername: ads.x5.ru
-    network: tcp
-    udp: true
-
-  - name: 🔥 VantaVPN | TCP+TLS (cloudflare)
-    type: vless
-    server: scarlet.riotvpn.eu
-    port: 4449
-    uuid: 49a8e3f5-3bad-4964-ba1d-31f6c6bcd699
-    tls: true
-    servername: cloudflare.com
-    network: tcp
-    udp: true
-
-  - name: 🔥 VantaVPN | TCP+TLS (speedtest)
-    type: vless
-    server: scarlet.riotvpn.eu
-    port: 4449
-    uuid: 49a8e3f5-3bad-4964-ba1d-31f6c6bcd699
-    tls: true
-    servername: speedtest.net
-    network: tcp
-    udp: true
+vless://49a8e3f5-3bad-4964-ba1d-31f6c6bcd699@scarlet.riotvpn.eu:5443?encryption=none&flow=xtls-rprx-vision&security=reality&sni=ads.x5.ru&fp=chrome&pbk=sgFFdQvfeujBKh6g7N7klU_u0mKYlr800MFbko5FzUg&sid=e67fb918ed6b9ffb&type=tcp&headerType=none#VantaVPN+Reality+1
+vless://49a8e3f5-3bad-4964-ba1d-31f6c6bcd699@scarlet.riotvpn.eu:5443?encryption=none&flow=xtls-rprx-vision&security=reality&sni=www.google.com&fp=chrome&pbk=sgFFdQvfeujBKh6g7N7klU_u0mKYlr800MFbko5FzUg&sid=e67fb918ed6b9ffb&type=tcp&headerType=none#VantaVPN+Reality+2
+vless://49a8e3f5-3bad-4964-ba1d-31f6c6bcd699@scarlet.riotvpn.eu:5443?encryption=none&flow=xtls-rprx-vision&security=reality&sni=1.1.1.1&fp=chrome&pbk=sgFFdQvfeujBKh6g7N7klU_u0mKYlr800MFbko5FzUg&sid=e67fb918ed6b9ffb&type=tcp&headerType=none#VantaVPN+Reality+3
+vless://49a8e3f5-3bad-4964-ba1d-31f6c6bcd699@scarlet.riotvpn.eu:4449?encryption=none&security=tls&sni=dl.google.com&fp=chrome&type=xhttp&path=%2F&mode=packet#VantaVPN+xhttp+1
+vless://49a8e3f5-3bad-4964-ba1d-31f6c6bcd699@scarlet.riotvpn.eu:4449?encryption=none&security=tls&sni=obhod.riotvpn.eu&fp=chrome&type=xhttp&path=%2F&mode=auto#VantaVPN+xhttp+2
+vless://49a8e3f5-3bad-4964-ba1d-31f6c6bcd699@scarlet.riotvpn.eu:4449?encryption=none&security=tls&sni=www.microsoft.com&fp=chrome&type=xhttp&path=%2F&mode=packet#VantaVPN+xhttp+3
+vless://49a8e3f5-3bad-4964-ba1d-31f6c6bcd699@scarlet.riotvpn.eu:4449?encryption=none&security=tls&sni=obhod.riotvpn.eu&fp=chrome&type=tcp#VantaVPN+TCP+1
+vless://49a8e3f5-3bad-4964-ba1d-31f6c6bcd699@scarlet.riotvpn.eu:4449?encryption=none&security=tls&sni=ads.x5.ru&fp=chrome&type=tcp#VantaVPN+TCP+2
+vless://49a8e3f5-3bad-4964-ba1d-31f6c6bcd699@scarlet.riotvpn.eu:4449?encryption=none&security=tls&sni=cloudflare.com&fp=chrome&type=tcp#VantaVPN+TCP+3
+vless://49a8e3f5-3bad-4964-ba1d-31f6c6bcd699@scarlet.riotvpn.eu:4449?encryption=none&security=tls&sni=speedtest.net&fp=chrome&type=tcp#VantaVPN+TCP+4
