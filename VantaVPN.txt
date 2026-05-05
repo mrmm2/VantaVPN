@@ -1,83 +1,128 @@
-# VantaVPN — система управления подписками
+    #profile-title: 🚀 VantaVPN | Обход любых блокировок
+#profile-update-interval: 12
+#support-url: https://t.me/vantavpn_bot
+#profile-web-page-url: https://t.me/vantavpn
+#announce: ✅ Безлимитный трафик | ✅ 10 серверов | ✅ Обход DPI/глушилок | ✅ Поддержка 24/7
+#subscription-userinfo: upload=0; download=0; total=0; expire=3803752800
 
-import sqlite3
-from datetime import datetime, timedelta
+proxies:
+  # ========== 1. REАLITY (лучший обход глушилок) ==========
+  - name: 🛡️ VantaVPN | Reality (ads.x5.ru)
+    type: vless
+    server: scarlet.riotvpn.eu
+    port: 5443
+    uuid: 49a8e3f5-3bad-4964-ba1d-31f6c6bcd699
+    flow: xtls-rprx-vision
+    tls: true
+    servername: ads.x5.ru
+    reality-opts:
+      public-key: sgFFdQvfeujBKh6g7N7klU_u0mKYlr800MFbko5FzUg
+      short-id: e67fb918ed6b9ffb
+    network: tcp
+    udp: true
 
-# Цены подписок
-PRICES = {
-    30: 40,   # 30 дней = 40 ₽
-    60: 70,   # 60 дней = 70 ₽
-    90: 100   # 90 дней = 100 ₽
-}
+  - name: 🛡️ VantaVPN | Reality (www.google.com)
+    type: vless
+    server: scarlet.riotvpn.eu
+    port: 5443
+    uuid: 49a8e3f5-3bad-4964-ba1d-31f6c6bcd699
+    flow: xtls-rprx-vision
+    tls: true
+    servername: www.google.com
+    reality-opts:
+      public-key: sgFFdQvfeujBKh6g7N7klU_u0mKYlr800MFbko5FzUg
+      short-id: e67fb918ed6b9ffb
+    network: tcp
+    udp: true
 
-DB_NAME = "subscriptions.db"
+  - name: 🛡️ VantaVPN | Reality (1.1.1.1)
+    type: vless
+    server: scarlet.riotvpn.eu
+    port: 5443
+    uuid: 49a8e3f5-3bad-4964-ba1d-31f6c6bcd699
+    flow: xtls-rprx-vision
+    tls: true
+    servername: 1.1.1.1
+    reality-opts:
+      public-key: sgFFdQvfeujBKh6g7N7klU_u0mKYlr800MFbko5FzUg
+      short-id: e67fb918ed6b9ffb
+    network: tcp
+    udp: true
 
-# Инициализация базы данных
-def init_db():
-    conn = sqlite3.connect(DB_NAME)
-    cur = conn.cursor()
-    cur.execute('''
-        CREATE TABLE IF NOT EXISTS users (
-            user_id INTEGER PRIMARY KEY,
-            subscription_end TEXT,
-            created_at TEXT
-        )
-    ''')
-    conn.commit()
-    conn.close()
+  # ========== 2. XHTTP + PACKET (обход DPI) ==========
+  - name: 🚀 VantaVPN | xhttp+packet (dl.google.com)
+    type: vless
+    server: scarlet.riotvpn.eu
+    port: 4449
+    uuid: 49a8e3f5-3bad-4964-ba1d-31f6c6bcd699
+    tls: true
+    servername: dl.google.com
+    network: xhttp
+    xhttp-opts:
+      path: /
+      mode: packet
 
-# Получить дату окончания подписки
-def get_subscription(user_id):
-    conn = sqlite3.connect(DB_NAME)
-    cur = conn.cursor()
-    cur.execute('SELECT subscription_end FROM users WHERE user_id = ?', (user_id,))
-    result = cur.fetchone()
-    conn.close()
-    return result[0] if result else None
+  - name: 🚀 VantaVPN | xhttp+packet (obhod.riotvpn.eu)
+    type: vless
+    server: scarlet.riotvpn.eu
+    port: 4449
+    uuid: 49a8e3f5-3bad-4964-ba1d-31f6c6bcd699
+    tls: true
+    servername: obhod.riotvpn.eu
+    network: xhttp
+    xhttp-opts:
+      path: /
+      mode: packet
 
-# Установить подписку
-def set_subscription(user_id, end_date):
-    conn = sqlite3.connect(DB_NAME)
-    cur = conn.cursor()
-    cur.execute('''
-        INSERT INTO users (user_id, subscription_end, created_at) 
-        VALUES (?, ?, ?)
-        ON CONFLICT(user_id) DO UPDATE SET subscription_end = excluded.subscription_end
-    ''', (user_id, end_date.isoformat(), datetime.now().isoformat()))
-    conn.commit()
-    conn.close()
+  - name: 🚀 VantaVPN | xhttp+packet (microsoft.com)
+    type: vless
+    server: scarlet.riotvpn.eu
+    port: 4449
+    uuid: 49a8e3f5-3bad-4964-ba1d-31f6c6bcd699
+    tls: true
+    servername: www.microsoft.com
+    network: xhttp
+    xhttp-opts:
+      path: /
+      mode: packet
 
-# Добавить дни к подписке
-def add_days(user_id, days):
-    current_end = get_subscription(user_id)
-    if current_end and datetime.fromisoformat(current_end) > datetime.now():
-        new_end = datetime.fromisoformat(current_end) + timedelta(days=days)
-    else:
-        new_end = datetime.now() + timedelta(days=days)
-    set_subscription(user_id, new_end)
-    return new_end
+  # ========== 3. TCP+TLS (стабильные) ==========
+  - name: 🔥 VantaVPN | TCP+TLS (obhod)
+    type: vless
+    server: scarlet.riotvpn.eu
+    port: 4449
+    uuid: 49a8e3f5-3bad-4964-ba1d-31f6c6bcd699
+    tls: true
+    servername: obhod.riotvpn.eu
+    network: tcp
+    udp: true
 
-# Проверить активна ли подписка
-def is_active(user_id):
-    end_date = get_subscription(user_id)
-    if not end_date:
-        return False
-    return datetime.fromisoformat(end_date) > datetime.now()
+  - name: 🔥 VantaVPN | TCP+TLS (ads.x5.ru)
+    type: vless
+    server: scarlet.riotvpn.eu
+    port: 4449
+    uuid: 49a8e3f5-3bad-4964-ba1d-31f6c6bcd699
+    tls: true
+    servername: ads.x5.ru
+    network: tcp
+    udp: true
 
-# Сколько дней осталось
-def days_left(user_id):
-    end_date = get_subscription(user_id)
-    if not end_date:
-        return 0
-    delta = datetime.fromisoformat(end_date) - datetime.now()
-    return delta.days if delta.days > 0 else 0
+  - name: 🔥 VantaVPN | TCP+TLS (cloudflare)
+    type: vless
+    server: scarlet.riotvpn.eu
+    port: 4449
+    uuid: 49a8e3f5-3bad-4964-ba1d-31f6c6bcd699
+    tls: true
+    servername: cloudflare.com
+    network: tcp
+    udp: true
 
-# Пример использования
-if __name__ == "__main__":
-    init_db()
-    
-    # Добавляем подписку пользователю 8784991559 на 30 дней
-    new_end = add_days(8784991559, 30)
-    print(f"Подписка активна до: {new_end}")
-    print(f"Активна: {is_active(8784991559)}")
-    print(f"Осталось дней: {days_left(8784991559)}")
+  - name: 🔥 VantaVPN | TCP+TLS (speedtest)
+    type: vless
+    server: scarlet.riotvpn.eu
+    port: 4449
+    uuid: 49a8e3f5-3bad-4964-ba1d-31f6c6bcd699
+    tls: true
+    servername: speedtest.net
+    network: tcp
+    udp: true
