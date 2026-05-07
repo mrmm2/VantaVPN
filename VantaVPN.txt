@@ -3,14 +3,244 @@
 #support-url: https://t.me/vantavpn_bot
 #profile-web-page-url: https://t.me/vantavpn
 #announce: ✅ Безлимитный трафик | ✅ 10 серверов | ✅ Обход DPI/глушилок | ✅ Поддержка 24/7
-#subscription-userinfo: upload=0; download=0; total=0; expire=3803752800
-vless://49a8e3f5-3bad-4964-ba1d-31f6c6bcd699@scarlet.riotvpn.eu:5443?encryption=none&flow=xtls-rprx-vision&security=reality&sni=ads.x5.ru&fp=chrome&pbk=sgFFdQvfeujBKh6g7N7klU_u0mKYlr800MFbko5FzUg&sid=e67fb918ed6b9ffb&type=tcp&headerType=none#VantaVPN+Reality+1
-vless://49a8e3f5-3bad-4964-ba1d-31f6c6bcd699@scarlet.riotvpn.eu:5443?encryption=none&flow=xtls-rprx-vision&security=reality&sni=www.google.com&fp=chrome&pbk=sgFFdQvfeujBKh6g7N7klU_u0mKYlr800MFbko5FzUg&sid=e67fb918ed6b9ffb&type=tcp&headerType=none#VantaVPN+Reality+2
-vless://49a8e3f5-3bad-4964-ba1d-31f6c6bcd699@scarlet.riotvpn.eu:5443?encryption=none&flow=xtls-rprx-vision&security=reality&sni=1.1.1.1&fp=chrome&pbk=sgFFdQvfeujBKh6g7N7klU_u0mKYlr800MFbko5FzUg&sid=e67fb918ed6b9ffb&type=tcp&headerType=none#VantaVPN+Reality+3
-vless://49a8e3f5-3bad-4964-ba1d-31f6c6bcd699@scarlet.riotvpn.eu:4449?encryption=none&security=tls&sni=dl.google.com&fp=chrome&type=xhttp&path=%2F&mode=packet#VantaVPN+xhttp+1
-vless://49a8e3f5-3bad-4964-ba1d-31f6c6bcd699@scarlet.riotvpn.eu:4449?encryption=none&security=tls&sni=obhod.riotvpn.eu&fp=chrome&type=xhttp&path=%2F&mode=auto#VantaVPN+xhttp+2
-vless://49a8e3f5-3bad-4964-ba1d-31f6c6bcd699@scarlet.riotvpn.eu:4449?encryption=none&security=tls&sni=www.microsoft.com&fp=chrome&type=xhttp&path=%2F&mode=packet#VantaVPN+xhttp+3
-vless://49a8e3f5-3bad-4964-ba1d-31f6c6bcd699@scarlet.riotvpn.eu:4449?encryption=none&security=tls&sni=obhod.riotvpn.eu&fp=chrome&type=tcp#VantaVPN+TCP+1
-vless://49a8e3f5-3bad-4964-ba1d-31f6c6bcd699@scarlet.riotvpn.eu:4449?encryption=none&security=tls&sni=ads.x5.ru&fp=chrome&type=tcp#VantaVPN+TCP+2
-vless://49a8e3f5-3bad-4964-ba1d-31f6c6bcd699@scarlet.riotvpn.eu:4449?encryption=none&security=tls&sni=cloudflare.com&fp=chrome&type=tcp#VantaVPN+TCP+3
-vless://49a8e3f5-3bad-4964-ba1d-31f6c6bcd699@scarlet.riotvpn.eu:4449?encryption=none&security=tls&sni=speedtest.net&fp=chrome&type=tcp#VantaVPN+TCP+4
+#subscription-userinfo: upload=0; download=0; total=0; expire=1808524800
+{
+  "dns": {
+    "servers": [
+      "1.1.1.1",
+      "1.0.0.1"
+    ],
+    "queryStrategy": "UseIP"
+  },
+  "routing": {
+    "rules": [
+      {
+        "type": "field",
+        "protocol": [
+          "bittorrent"
+        ],
+        "outboundTag": "direct"
+      },
+      {
+        "type": "field",
+        "network": "tcp,udp",
+        "balancerTag": "Super_Balancer"
+      }
+    ],
+    "balancers": [
+      {
+        "tag": "Super_Balancer",
+        "selector": [
+          "proxy"
+        ],
+        "strategy": {
+          "type": "leastLoad",
+          "settings": {
+            "maxRTT": "1s",
+            "expected": 2,
+            "baselines": [
+              "1s"
+            ],
+            "tolerance": 0.01
+          }
+        },
+        "fallbackTag": "direct"
+      }
+    ],
+    "domainMatcher": "hybrid",
+    "domainStrategy": "IPIfNonMatch"
+  },
+  "inbounds": [
+    {
+      "tag": "socks",
+      "port": 10808,
+      "listen": "127.0.0.1",
+      "protocol": "socks",
+      "settings": {
+        "udp": true,
+        "auth": "noauth"
+      },
+      "sniffing": {
+        "enabled": true,
+        "routeOnly": false,
+        "destOverride": [
+          "http",
+          "tls",
+          "quic"
+        ]
+      }
+    },
+    {
+      "tag": "http",
+      "port": 10809,
+      "listen": "127.0.0.1",
+      "protocol": "http",
+      "settings": {
+        "allowTransparent": false
+      },
+      "sniffing": {
+        "enabled": true,
+        "routeOnly": false,
+        "destOverride": [
+          "http",
+          "tls",
+          "quic"
+        ]
+      }
+    }
+  ],
+  "outbounds": [
+    {
+      "tag": "proxy",
+      "protocol": "vless",
+      "settings": {
+        "vnext": [
+          {
+            "address": "51.250.64.76",
+            "port": 443,
+            "users": [
+              {
+                "id": "570bdb92-9861-4290-a7f2-52147bf43a2d",
+                "encryption": "none",
+                "flow": "xtls-rprx-vision"
+              }
+            ]
+          }
+        ]
+      },
+      "streamSettings": {
+        "network": "tcp",
+        "tcpSettings": {},
+        "security": "reality",
+        "realitySettings": {
+          "serverName": "ads.x5.ru",
+          "publicKey": "CUvrNEu4mPY8Ng-skHzvdy5La4k-EJVeFsiG_r4P1GU",
+          "shortId": "caf45e30efc58f8a",
+          "fingerprint": "qq"
+        }
+      }
+    },
+    {
+      "tag": "proxy-2",
+      "protocol": "vless",
+      "settings": {
+        "vnext": [
+          {
+            "address": "158.160.58.66",
+            "port": 443,
+            "users": [
+              {
+                "id": "570bdb92-9861-4290-a7f2-52147bf43a2d",
+                "encryption": "none",
+                "flow": "xtls-rprx-vision"
+              }
+            ]
+          }
+        ]
+      },
+      "streamSettings": {
+        "network": "tcp",
+        "tcpSettings": {},
+        "security": "reality",
+        "realitySettings": {
+          "serverName": "ads.x5.ru",
+          "publicKey": "o4004QJW9M_o943_AbF_9RrDpzt8J5rvhcAMq0VLs1M",
+          "shortId": "c195063a63e17ed7",
+          "fingerprint": "qq"
+        }
+      }
+    },
+    {
+      "tag": "proxy-3",
+      "protocol": "vless",
+      "settings": {
+        "vnext": [
+          {
+            "address": "158.160.36.180",
+            "port": 8443,
+            "users": [
+              {
+                "id": "570bdb92-9861-4290-a7f2-52147bf43a2d",
+                "encryption": "none",
+                "flow": "xtls-rprx-vision"
+              }
+            ]
+          }
+        ]
+      },
+      "streamSettings": {
+        "network": "tcp",
+        "tcpSettings": {},
+        "security": "reality",
+        "realitySettings": {
+          "serverName": "ads.x5.ru",
+          "publicKey": "o4004QJW9M_o943_AbF_9RrDpzt8J5rvhcAMq0VLs1M",
+          "shortId": "c195063a63e17ed7",
+          "fingerprint": "qq"
+        }
+      }
+    },
+    {
+      "tag": "proxy-4",
+      "protocol": "vless",
+      "settings": {
+        "vnext": [
+          {
+            "address": "51.250.81.34",
+            "port": 443,
+            "users": [
+              {
+                "id": "570bdb92-9861-4290-a7f2-52147bf43a2d",
+                "encryption": "none",
+                "flow": "xtls-rprx-vision"
+              }
+            ]
+          }
+        ]
+      },
+      "streamSettings": {
+        "network": "tcp",
+        "tcpSettings": {},
+        "security": "reality",
+        "realitySettings": {
+          "serverName": "ads.x5.ru",
+          "publicKey": "o4004QJW9M_o943_AbF_9RrDpzt8J5rvhcAMq0VLs1M",
+          "shortId": "c195063a63e17ed7",
+          "fingerprint": "qq"
+        }
+      }
+    },
+    {
+      "tag": "direct",
+      "protocol": "freedom"
+    },
+    {
+      "tag": "block",
+      "protocol": "blackhole"
+    }
+  ],
+  "burstObservatory": {
+    "pingConfig": {
+      "timeout": "3s",
+      "interval": "1m",
+      "sampling": 1,
+      "destination": "http://www.gstatic.com/generate_204",
+      "connectivity": ""
+    },
+    "subjectSelector": [
+      "proxy"
+    ]
+  },
+  "remarks": "🇳🇱 2 LTE • Все операторы"
+}
+vless://570bdb92-9861-4290-a7f2-52147bf43a2d@51.250.64.76:443?security=reality&encryption=none&echfq=none&pbk=CUvrNEu4mPY8Ng-skHzvdy5La4k-EJVeFsiG_r4P1GU&headerType=none&fp=qq&allowinsecure=0&type=tcp&flow=xtls-rprx-vision&sni=ads.x5.ru&sid=caf45e30efc58f8a#%F0%9F%87%A6%F0%9F%87%B2VantaVPN+Server+1
+vless://570bdb92-9861-4290-a7f2-52147bf43a2d@158.160.36.180:8443?security=reality&encryption=none&echfq=none&pbk=o4004QJW9M_o943_AbF_9RrDpzt8J5rvhcAMq0VLs1M&headerType=none&fp=qq&allowinsecure=0&type=tcp&flow=xtls-rprx-vision&sni=ads.x5.ru&sid=c195063a63e17ed7#%F0%9F%87%AA%F0%9F%87%BAVantaVPN+Server+2
+3vless://570bdb92-9861-4290-a7f2-52147bf43a2d@51.250.81.34:443?security=reality&encryption=none&echfq=none&pbk=o4004QJW9M_o943_AbF_9RrDpzt8J5rvhcAMq0VLs1M&headerType=none&fp=qq&allowinsecure=0&type=tcp&flow=xtls-rprx-vision&sni=ads.x5.ru&sid=c195063a63e17ed7#%F0%9F%87%AA%F0%9F%87%BAVantaVPN+Server+4
+vless://570bdb92-9861-4290-a7f2-52147bf43a2d@158.160.36.180:8443?security=reality&encryption=none&pbk=o4004QJW9M_o943_AbF_9RrDpzt8J5rvhcAMq0VLs1M&headerType=none&fp=qq&allowinsecure=0&type=tcp&flow=xtls-rprx-vision&sni=ads.x5.ru&sid=c195063a63e17ed7#%F0%9F%87%AA%F0%9F%87%BA+VantaVPN
+vless://570bdb92-9861-4290-a7f2-52147bf43a2d@51.250.81.34:443?security=reality&encryption=none&pbk=o4004QJW9M_o943_AbF_9RrDpzt8J5rvhcAMq0VLs1M&headerType=none&fp=qq&allowinsecure=0&type=tcp&flow=xtls-rprx-vision&sni=ads.x5.ru&sid=c195063a63e17ed7#%F0%9F%87%B3%F0%9F%87%B1+VantaVPN+I
+vles
+vless://570bdb92-9861-4290-a7f2-52147bf43a2d@51.250.64.76:443?security=reality&encryption=none&pbk=CUvrNEu4mPY8Ng-skHzvdy5La4k-EJVeFsiG_r4P1GU&headerType=none&fp=qq&allowinsecure=0&type=tcp&flow=xtls-rprx-vision&sni=ads.x5.ru&sid=caf45e30efc58f8a#%F0%9F%87%B3%F0%9F%87%B1+VantaVPN+AntiDPI
+vless://570bdb92-9861-4290-a7f2-52147bf43a2d@51.250.64.76:443?security=reality&encryption=none&pbk=CUvrNEu4mPY8Ng-skHzvdy5La4k-EJVeFsiG_r4P1GU&headerType=none&fp=qq&allowinsecure=0&type=tcp&flow=xtls-rprx-vision&sni=ads.x5.ru&sid=caf45e30efc58f8a#%F0%9F%87%A9%F0%9F%87%AA+VantaVPN+WIFI
+vless://570bdb92-9861-4290-a7f2-52147bf43a2d@158.160.36.180:8443?security=reality&encryption=none&pbk=o4004QJW9M_o943_AbF_9RrDpzt8J5rvhcAMq0VLs1M&headerType=none&fp=qq&allowinsecure=0&type=tcp&flow=xtls-rprx-vision&sni=ads.x5.ru&sid=c195063a63e17ed7#%F0%9F%87%AA%F0%9F%87%BA+VantaVPN+WIFI
+vless://570bdb92-9861-4290-a7f2-52147bf43a2d@158.160.36.180:8443?security=reality&encryption=none&echfq=none&pbk=o4004QJW9M_o943_AbF_9RrDpzt8J5rvhcAMq0VLs1M&headerType=none&fp=qq&allowinsecure=0&type=tcp&flow=xtls-rprx-vision&sni=ads.x5.ru&sid=c195063a63e17ed7#%F0%9F%87%AD%F0%9F%87%BA+VantaVPN+WIFI
+vless://570bdb92-9861-4290-a7f2-52147bf43a2d@51.250.64.76:443?security=reality&encryption=none&echfq=none&pbk=CUvrNEu4mPY8Ng-skHzvdy5La4k-EJVeFsiG_r4P1GU&headerType=none&fp=chrome&allowinsecure=0&type=tcp&flow=xtls-rprx-vision&sni=ads.x5.ru&sid=caf45e30efc58f8a#%F0%9F%87%AD%F0%9F%87%VantaVPN+WIFvless://570bdb92-9861-4290-a7f2-52147bf43a2d@158.160.36.180:8443?security=reality&encryption=none&echfq=none&pbk=o4004QJW9M_o943_AbF_9RrDpzt8J5rvhcAMq0VLs1M&headerType=none&fp=chrome&allowinsecure=0&type=tcp&flow=xtls-rprx-vision&sni=ads.x5.ru&sid=c195063a63e17ed7#%F0%9F%87%A6%F0%9F%87%B2%F0%9F%87%A6%F0%9F%87%B2VantaVPNvless://570bdb92-9861-4290-a7f2-52147bf43a2d@51.250.81.34:443?security=reality&encryption=none&echfq=none&pbk=o4004QJW9M_o943_AbF_9RrDpzt8J5rvhcAMq0VLs1M&headerType=none&fp=chrome&allowinsecure=0&type=tcp&flow=xtls-rprx-vision&sni=ads.x5.ru&sid=c195063a63e17ed7#%F0%9F%87%A6%F0%9F%87%B1VantaVPNI
